@@ -13,6 +13,7 @@ int ReadFromFile()
 	std::fstream myfile("balance.txt", std::ios_base::in);
 	int result;
 	myfile >> result;
+	std::cout << "tec: " << result << std::endl;
 	myfile.close();
 
 	return result;
@@ -76,10 +77,10 @@ DWORD WINAPI DoWithdraw(CONST LPVOID lpParameter)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	constexpr int threadCount = 50;
+	constexpr int threadCount = 100;
 	std::vector<HANDLE> threadHandles(threadCount);
 
-	hShared = CreateMutex(NULL, FALSE, reinterpret_cast<LPCSTR>(L"Global\\balance"));
+	hShared = CreateMutex(NULL, FALSE, TEXT("Global\\balance"));
 
 	WriteToFile(0);
 
@@ -90,6 +91,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			? CreateThread(NULL, 0, &DoDeposit, reinterpret_cast<LPVOID>(static_cast<intptr_t>(230)), CREATE_SUSPENDED, NULL)
 			: CreateThread(NULL, 0, &DoWithdraw, reinterpret_cast<LPVOID>(static_cast<intptr_t>(1000)), CREATE_SUSPENDED, NULL);
 		ResumeThread(threadHandles[i]);
+		Sleep(5);
 	}
 
 	WaitForMultipleObjects(threadCount, threadHandles.data(), true, INFINITE);
