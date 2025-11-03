@@ -1,3 +1,4 @@
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -9,7 +10,6 @@ HANDLE hShared;
 
 int ReadFromFile()
 {
-
 	std::fstream myfile("balance.txt", std::ios_base::in);
 	int result;
 	myfile >> result;
@@ -21,6 +21,8 @@ int ReadFromFile()
 
 void WriteToFile(const int data)
 {
+	auto time = std::chrono::system_clock::now();
+	std::cout << time << std::endl;
 	std::fstream myfile("balance.txt",  std::ios_base::out);
 	myfile << data << std::endl;
 	myfile.close();
@@ -77,10 +79,10 @@ DWORD WINAPI DoWithdraw(CONST LPVOID lpParameter)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	constexpr int threadCount = 100;
+	constexpr int threadCount = 500;
 	std::vector<HANDLE> threadHandles(threadCount);
 
-	hShared = CreateMutex(NULL, FALSE, TEXT("Global\\balance"));
+	hShared = CreateMutex(NULL, FALSE, "balance312");
 
 	WriteToFile(0);
 

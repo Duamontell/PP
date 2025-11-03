@@ -72,7 +72,7 @@ DWORD WINAPI DoWithdraw(CONST LPVOID lpParameter)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	constexpr int threadCount = 50;
+	constexpr int threadCount = 500;
 	std::vector<HANDLE> threadHandles(threadCount);
 
 	InitializeCriticalSection(&FileLockingCriticalSection);
@@ -80,7 +80,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	WriteToFile(0);
 
 	SetProcessAffinityMask(GetCurrentProcess(), 1);
-	for ( int i = 0; i < 50; i++ ){
+	for ( int i = 0; i < threadCount; i++ ){
 		threadHandles[i] = ( i % 2 == 0 )
 			? CreateThread(NULL, 0, &DoDeposit, reinterpret_cast<LPVOID>(static_cast<intptr_t>(230)), CREATE_SUSPENDED, NULL)
 			: CreateThread(NULL, 0, &DoWithdraw, reinterpret_cast<LPVOID>(static_cast<intptr_t>(1000)), CREATE_SUSPENDED, NULL);
