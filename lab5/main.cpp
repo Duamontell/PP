@@ -12,7 +12,6 @@ int ReadFromFile()
 	std::fstream myfile("balance.txt", std::ios_base::in);
 	int result;
 	myfile >> result;
-	std::cout << "tec: " << result << std::endl;
 	myfile.close();
 
 	return result;

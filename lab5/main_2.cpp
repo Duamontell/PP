@@ -22,7 +22,7 @@ int ReadFromFile()
 void WriteToFile(const int data)
 {
 	auto time = std::chrono::system_clock::now();
-	std::cout << time << std::endl;
+	// std::cout << time << std::endl;
 	std::fstream myfile("balance.txt",  std::ios_base::out);
 	myfile << data << std::endl;
 	myfile.close();
@@ -93,7 +93,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			? CreateThread(NULL, 0, &DoDeposit, reinterpret_cast<LPVOID>(static_cast<intptr_t>(230)), CREATE_SUSPENDED, NULL)
 			: CreateThread(NULL, 0, &DoWithdraw, reinterpret_cast<LPVOID>(static_cast<intptr_t>(1000)), CREATE_SUSPENDED, NULL);
 		ResumeThread(threadHandles[i]);
-		Sleep(5);
+		Sleep(1);
 	}
 
 	WaitForMultipleObjects(threadCount, threadHandles.data(), true, INFINITE);
