@@ -2,7 +2,7 @@
 
 public static class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
         string fileName = "";
         do
@@ -30,7 +30,7 @@ public static class Program
             return;
         }
         
-        string[] lines = File.ReadAllLines(fileName);
+        string[] lines = await File.ReadAllLinesAsync(fileName);
         for (int i = 0; i < lines.Length; i++)
         {
             string result = lines[i];
@@ -43,6 +43,6 @@ public static class Program
             Console.WriteLine(result);
         }
         
-        File.WriteAllLines(fileName, lines);
+        await File.WriteAllLinesAsync(fileName, lines);
     }
 }
